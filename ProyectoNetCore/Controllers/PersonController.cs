@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoNetCore.Models;
+using ProyectoNetCore.Services;
 using System.Collections.Generic;
 
 namespace ProyectoNetCore.Controllers
@@ -10,27 +11,46 @@ namespace ProyectoNetCore.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        [HttpGet]
-        public Person Get()
+
+        private readonly IPersonService service;
+
+        public PersonController(IPersonService service)
         {
-            return new Person(){ Id = 1, Name = "Cristhian", LastName = "Gómez" };
+            this.service = service;
+        }
+
+        [HttpGet]
+        public List<Person> Get()
+        {
+            return service.List();
+        }
+
+        [HttpGet("{id}")]
+        public Person Get(int id)
+        {
+            return service.Get(id);
         }
 
         [HttpPost]
         public Person Save(Person obj)
         {
+            service.Save(obj);
+
             return obj;
         }
 
-        [HttpGet("{id}/lenguages")]
-        public List<Language> GetLanguages(int id)
+        [HttpPut("{id}")]
+        public Person Update(int id, Person obj)
         {
-            return new List<Language>()
-            {
-                new () { Id = 1, Name ="JAVA" },
-                new () { Id = 1, Name ="PHP" },
-                new () { Id = 1, Name ="JAVASCRIPT" }
-            };
+            service.Update(id, obj);
+
+            return obj;
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            service.Delete(id);
         }
 
 

@@ -19,7 +19,11 @@ namespace ProyectoNetCore.Tools
                 Issuer = jwtConfig.Issuer,
                 Audience = jwtConfig.Audience, // Generar al cliente un código hash
                 Expires = expires,
-                Subject = new ClaimsIdentity(new[] { new Claim("username", obj.Username) }),
+                Subject = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.NameIdentifier, obj.Username),
+                    new Claim(ClaimTypes.Name, obj.Name),
+                    new Claim(ClaimTypes.Email, obj.Email),
+                }),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using ProyectoNetCore.Models;
 using System.Text;
 using ProyectoNetCore.Tools;
+using ProyectoNetCore.Services;
 
 namespace ProyectoNetCore
 {
@@ -52,6 +53,7 @@ namespace ProyectoNetCore
             services.AddTransient<IOperationTransient, Operation>();
             services.AddSingleton<IOperationSingleton, Operation>();
             services.AddScoped<Operation2>();
+            services.AddScoped<IPersonService, PersonService>();
         }
 
 
